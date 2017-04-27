@@ -1,0 +1,44 @@
+html,
+body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
+a,
+p {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+p {
+    text-align: center;
+}
+
+input {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+    margin: auto auto;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.center {
+    margin: auto auto;
+    width: 100%;
+    text-align: center;
+}
+
+.hyperlink {
+    color: #00B7FF;
+    border: 0px;
+    border-color: transparent;
+    background-color: transparent;
+}

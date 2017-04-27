@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="javascripts/angular.js"></script>
+    <title>
+        <%= title %>
+    </title>
+    <link rel='stylesheet' href='stylesheets/style.css' />
+</head>
+
+<body ng-app="login" ng-controller="loginController">
+    <img src="images/img.png" />
+    <div class="center">
+        <h1>
+            {{ title }}
+        </h1>
+        <form ng-show="isLoginMode" ng-submit="login()">
+            <p><input type="text" ng-model="inputID" placeholder="이메일" name="id" style="width:70%" /></p>
+            <p><input type="password" ng-model="inputPW" placeholder="비밀번호" name="pw" style="width:70%" /></p>
+            <input type="submit" value="로그인"/>
+            <input type="button" class="hyperlink" ng-click="isLoginMode = !isLoginMode; result='';" value="회원가입" />
+        </form>
+        <form ng-hide="isLoginMode" method="post" action="/auth/regist">
+            <p><input type="text" ng-model="inputID" placeholder="이메일" name="id" style="width:70%" /></p>
+            <p><input type="password" ng-model="inputPW" placeholder="비밀번호" name="pw" style="width:70%" /></p>
+            <p><input type="password" ng-model="checkedInputPW" placeholder="비밀번호 재입력" name="checkPW" style="width:70%" /></p>
+            <input type="submit" value="가입하기"/>
+            <input type="button" class="hyperlink" ng-click="isLoginMode = !isLoginMode; result='';" value="취소" />
+        </form>
+    </div>
+    <p ng-show="result != ''">
+        {{ result }}
+    </p>
+
+</body>
+
+</html>
