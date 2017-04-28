@@ -1,7 +1,7 @@
 var app = angular.module('login', []); //모듈명, injection할 모듈명
 
 
-app.controller('loginController', ['$scope', '$http', function ($scope, $http) {
+app.controller('loginController', ['$scope', '$http', '$window', function ($scope, $http, $window) {
     //scope? 컨트롤러와 뷰 사이에 공통으로 사용되는 변수가 된다.
     $scope.title = 'TitleFromAngular';
     $scope.isLoginMode = true;
@@ -33,14 +33,15 @@ app.controller('loginController', ['$scope', '$http', function ($scope, $http) {
                 }
             })
             .then(function success(response) {
-                if (response.data.result) {
-                    $http.get('/main');
-                } else{
-                    //json success
-                $scope.result = response.data.response;
-                }
-            }, function error() {
-                $scope.result = 'inServer error!';
-            });
+                    if (response.data.result) {
+                        $window.location.href = '/main';
+                    } else {
+                        //json success
+                        $scope.result = response.data.response;
+                    }
+                },
+                function error() {
+                    $scope.result = 'inServer error!';
+                });
     };
 }]);
