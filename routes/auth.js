@@ -1,6 +1,5 @@
 var AWS = require('aws-sdk');
 var express = require('express');
-var encrypt = require('../util/encrypt');
 var router = express.Router();
 
 AWS.config.update({
@@ -10,15 +9,17 @@ var db = new AWS.DynamoDB.DocumentClient();
 var userTableName = 'users'
 
 var database = require('../util/database');
+var encrypt = require('../util/encrypt');
+var sessionPool = require('../util/sessionPool');
 
 /* 로그인 페이지 JSON 함수 처리 루트. */
 router.post('/login', function (req, res, next) {
     database.userLogin(req.body.id, req.body.pw, function (resultJSON) {
-        console.log('/login : ' + resultJSON.error + ',' + resultJSON.response);
-        
         //에러가 나지 않았고, 로그인이 성공적인 경우는 json결과가 아닌 다음페이지로 리다이렉션한다.
+        //리다이렉션은 angularjs에서 해준다.
         if(!resultJSON.error && resultJSON.result){
             req.session.sessid = resultJSON.response;
+            sessionPool.inputSession(req.session.sessid);
         }
         res.json(resultJSON);
     });

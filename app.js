@@ -10,6 +10,8 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var auth = require('./routes/auth');
 var main = require('./routes/main');
+var sessionPool = require('./util/sessionPool');
+var encryption = require('./util/encrypt');
 
 var app = express();
 
@@ -34,6 +36,23 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+//세션 확인 미들웨어
+app.all('*', function (req, res, next){
+    var currSessionID = req.session.sessid;
+
+    //세션값이 있는 경우(유효값 알수없음)
+    if(currSessionID){
+        console.log('[sessionCheckMiddleWare]currSession : ' + currSessionID);
+
+        //유효세션값인 경우
+        if(sessionPool.checkSession(currSessionID)){
+            if(req.originalUrl == '/' || req.originalUrl == '/login'){
+                res.redirect('/main');
+            }
+        }
+    }
+    next();
+})
 //여기서 custom Session 검사 진행.
 app.use('/', index);
 app.use('/users', users);
